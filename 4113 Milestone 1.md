@@ -29,7 +29,7 @@ THE PURPOSE OF THIS PROGRAM TO SIMULATE A PUBLIC TRANSPORT JOURNEY FARE TRACKER
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-*Add IPO table (It maybe easier to create the table in Word and paste as an image!)*
+*Add IPO table (It maybe easier to create the table in Word ad paste as an image!)*
 
 ------------------------------------------------------------------------------------------------------------------------------
 
@@ -38,8 +38,6 @@ THE PURPOSE OF THIS PROGRAM TO SIMULATE A PUBLIC TRANSPORT JOURNEY FARE TRACKER
 ------------------------------------------------------------------------------------------------------------------------------
 
 ![Screenshot 2026-05-03 165427.png](C:\Users\HP\OneDrive\Desktop\Screenshot%202026-05-03%20165427.png)
-
-*Add Gantt Chart (it maybe easier to create chart in Excel and paste as an image!)*
 
 ------------------------------------------------------------------------------------------------------------------------------
 
