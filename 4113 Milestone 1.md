@@ -4,7 +4,7 @@
 | ------------------ | ----------------------------------------------------------------------- |
 | Group              | A                                                                       |
 | Module Title       | IY4113 Applied Software Engineering using Object-Orientated Programming |
-| Assessment Type    |                                                                         |
+| Assessment Type    | Java Fundamentals Part 1                                                |
 | Module Tutor Name  | Shore, Jonathan                                                         |
 | Student ID Number  | T0496112                                                                |
 | Date of Submission | 5/4/2026                                                                |
@@ -37,7 +37,7 @@ THE PURPOSE OF THIS PROGRAM TO SIMULATE A PUBLIC TRANSPORT JOURNEY FARE TRACKER
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-![Screenshot 2026-05-03 165427.png](C:\Users\HP\OneDrive\Desktop\Screenshot%202026-05-03%20165427.png)
+![Gantt Chart](Ghantt_Chart.png)
 
 ------------------------------------------------------------------------------------------------------------------------------
 
