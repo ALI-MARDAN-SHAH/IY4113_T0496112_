@@ -151,7 +151,7 @@ HIGH QUALITY WILL BE PROVIDED IF ASKED
 
 ### Diary Entries
 
-### 1/05/2026  Diary Entry 1: Understanding the Program Brief
+### 1/05/2026  Diary Entry 1: Understanding the Program
 
 Today, I began by reading the CityRide Lite assignment briefly and carefully. Before writing about the planning section I wanna understand what the program actually needs. So, from the brief, I understand that this program is like the Java journey tracker used for public transport. It needs the user’s journey for a particular single day, calculates that journey cost, applies discounts and daily caps, and then manages the journey overall while the program is running. 
 I also wanna share some main components that a program actually needs which include adding, listing, filtering, and removing journeys, resetting the day, and showing summaries. I also noted down some important rules that are using only zones 1-5, accepting the valid passengers for the journey, and also checking for peak or off-peak journeys. 
