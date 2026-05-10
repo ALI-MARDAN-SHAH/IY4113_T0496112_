@@ -21,37 +21,29 @@
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-### 1 : Add Journey Flowchart
+### 1 : Overall Program Flowchart
+
+![](OVERALL%20CHART.jpg)
+
+### 2 : Add Journey Flowchart
 
 ![D14.jpg](D14.jpg)
 
-### 2 : Remove Journey Flowchart
+### 3 : Remove Journey Flowchart
 
 ![D12.jpg](D12.jpg) 
 
-### 3 : Reset Day Flowchart
+### 4 : Reset Day Flowchart
 
 ![D13.jpg](D13.jpg)
 
-
-
-### 4 : View Summary Flowchart
-
-
+### 5 : View Summary Flowchart
 
 ![D15.jpg](D15.jpg)
 
-
-
-### 5 : Filter Journey Flowchart
-
-
+### 6 : Filter Journey Flowchart
 
 ![D16.jpg](D17.jpg)
-
-- *Add **images** for the design of your algorithm. Choose either Flowchart or JSP diagrams to demonstrate the functional elements of the algorithm. There should be multiple images for this part as you are decomposing the problem into smaller elements.*
-
-- *Include a class diagram to demonstrate the class structure of the proposed program design.*
 
 ------------------------------------------------------------------------------------------------------------------------------
 
@@ -59,21 +51,48 @@
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-*Research existing programs that solve a similar problem. The program does not have to be written in java or object orientated in nature - just solve a similar type of problem.* 
+### **Name of program:**
 
-*Use the strucutre below to capture your evidence:*
+Transport Management System
 
-------------------------------------------------------------------------------------------------------------------------------Name of program:
+---
 
-Reference (link):
+### **Reference (link):**
 
-What it does well (2-3 features that work effectively):
+[https://github.com/sixtusagbo/transport_management_system](https://github.com/sixtusagbo/transport_management_system?)
 
-What it does poorly (at least 1 feature):
+---
 
-Key design ideas you could reuse (e.g., layout, navigation, input/output, program structure):
+### **What it does well:**
 
-Screenshot (showing the interface/output):
+- Separates passenger and booking and payment functionality into organised components
+- Uses a clear dashboard and structured navigation system
+- Handles transport data such as bookings and tickets and journeys effectively
+
+---
+
+### **What it does poorly:**
+
+- The system is relatively complex for smaller student projects
+- Some parts rely heavily on external frameworks and configuration files
+
+---
+
+### **Key design ideas you could reuse:**
+
+I Might use these ideas for my program
+
+- Menu and dashboard navigation structure for better user flow
+- Separation of booking and passenger and payment into different modules
+- Structured handling of journey and fare information
+
+------------------------------------------------------------------------------------------------------------------------------
+
+![](example%201.jpg)
+
+![](example%202.jpg)
+
+![](example3.jpg)
 
 ------------------------------------------------------------------------------------------------------------------------------
 
@@ -81,7 +100,9 @@ Screenshot (showing the interface/output):
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-Add your updated Gantt chart here!
+![](update%20G%20chart.png)
+
+HD PICTURES WILL BE PROVIDED IF ASKED
 
 ------------------------------------------------------------------------------------------------------------------------------
 
@@ -89,20 +110,21 @@ Add your updated Gantt chart here!
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-### 5/9/2026 Diary Entry 1: Algorithm Design
+### 5/8/2026 Diary Entry 1: Algorithm Design
 
+Today I have looked into the algorithm design section of the assignment. I made the main program flowchart and a separate flowcharts of their main system functions which includes Add Journey, Filter Journeys, excluding Journey, Reset Day, and View Summaries. I did this because the assignment requires the problem to be broken down into smaller parts instead of showing everything in one large diagram so while creating the flowcharts I make sure to focus on making the program flow logically so it can be easy to follow. I made sure the diagrams showed the correct ordering of steps like writing down journey details, calculating fares, searching journeys and moving back to the main menu. The only problem I faced was that the overall program flowchart was too large and it was difficult to organise properly. Firstly, some branches looked messy because many functions were attached together. To resolve this, I simplified this overall flowchart which makes the diagrams much easier to read and more suitable for the analysis and design stage of the assignment.
 
+### 5/9/2026 Diary Entry 1: Research & Update Gannt Chart
 
+Today I examined the same transport management systems on GitHub
+to help and improve my own project and as I am new to GitHub it was difficult at first time to figure out how to search for projects and explore repositories and find systems identical to my program and I have spent time learning how GitHub actually works.
 
+After exploring different repositories I found a project named Transport Management System which was identical to my program the system supervises transport bookings and payments and tickets and passengers and journeys.
 
+One thing the project has done well is distancing passenger and booking and payment functionality into organised components and It also uses a exact dashboard and a structured navigation system which creates the application very easier.
 
+I also noticed some flaws the project is complicated for smaller projects and some things depend on external factors and configuration files.
 
+The main component I want to reuse from this examination is the menu dashboard and navigation structure because it provides the programa better organised and easy to understand design.
 
-
-
-
-
-
-*Add diary entries here detailing what you have done, wny you have done it, and any problems encountered.*
-
-------------------------------------------------------------------------------------------------------------------------------
+------
