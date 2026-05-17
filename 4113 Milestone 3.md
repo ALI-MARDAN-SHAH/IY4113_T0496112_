@@ -95,49 +95,49 @@ import data.CityRideDataset;
 
 public class Journey {
 
-private int id;
-private String date;
-private int fromZone;
-private int toZone;
-private CityRideDataset.TimeBand timeBand;
-private CityRideDataset.PassengerType passengerType;
-
-public Journey(int id, String date, int fromZone, int toZone,
-               CityRideDataset.TimeBand timeBand,
-               CityRideDataset.PassengerType passengerType) {
-    this.id = id;
-    this.date = date;
-    this.fromZone = fromZone;
-    this.toZone = toZone;
-    this.timeBand = timeBand;
-    this.passengerType = passengerType;
-}
-
-public int getId() {
-    return id;
-}
-
-public int getFromZone() {
-    return fromZone;
-}
-
-public int getToZone() {
-    return toZone;
-}
-
-public int getZonesCrossed() {
-    return Math.abs(toZone - fromZone) + 1;
-}
-
-public String showJourneyDetails() {
-    return "ID: " + id
-            + " | Date: " + date
-            + " | From zone: " + fromZone
-            + " | To zone: " + toZone
-            + " | Time: " + timeBand
-            + " | Passenger: " + passengerType
-            + " | Zones crossed: " + getZonesCrossed();
-}
+    private int id;
+    private String date;
+    private int fromZone;
+    private int toZone;
+    private CityRideDataset.TimeBand timeBand;
+    private CityRideDataset.PassengerType passengerType;
+    
+    public Journey(int id, String date, int fromZone, int toZone,
+                   CityRideDataset.TimeBand timeBand,
+                   CityRideDataset.PassengerType passengerType) {
+        this.id = id;
+        this.date = date;
+        this.fromZone = fromZone;
+        this.toZone = toZone;
+        this.timeBand = timeBand;
+        this.passengerType = passengerType;
+    }
+    
+    public int getId() {
+        return id;
+    }
+    
+    public int getFromZone() {
+        return fromZone;
+    }
+    
+    public int getToZone() {
+        return toZone;
+    }
+    
+    public int getZonesCrossed() {
+        return Math.abs(toZone - fromZone) + 1;
+    }
+    
+    public String showJourneyDetails() {
+        return "ID: " + id
+                + " | Date: " + date
+                + " | From zone: " + fromZone
+                + " | To zone: " + toZone
+                + " | Time: " + timeBand
+                + " | Passenger: " + passengerType
+                + " | Zones crossed: " + getZonesCrossed();
+    }
 
 }
 
@@ -147,35 +147,34 @@ public String showJourneyDetails() {
 
 ---
 
-package service;
+package service;  
 
-import data.CityRideDataset;
-import model.Journey;
+import data.CityRideDataset;  
+import model.Journey;  
 
-import java.util.ArrayList;
+import java.util.ArrayList;  
 
-public class CityRideService {
+public class CityRideService {  
 
-// This list stores journeys while the program is running.
-private ArrayList<Journey> journeys;
-private int nextJourneyId;
-
-public CityRideService() {
-    journeys = new ArrayList<>();
-    nextJourneyId = 1;
-}
-
-public void addJourney(String date, int fromZone, int toZone,
-                       CityRideDataset.TimeBand timeBand,
-                       CityRideDataset.PassengerType passengerType) {
-    Journey journey = new Journey(nextJourneyId, date, fromZone, toZone, timeBand, passengerType);
-
-journeys.add(journey);
-nextJourneyId++;
-
-System.out.println("Journey added.");
-
-}
+    // This list stores journeys while the program will be running  
+    private ArrayList<Journey> journeys;  
+    private int nextJourneyId;  
+    
+    public CityRideService() {  
+        journeys = new ArrayList<>();  
+        nextJourneyId = 1;  
+    }  
+    
+    public void addJourney(String date, int fromZone, int toZone,  
+                           CityRideDataset.TimeBand timeBand,  
+                           CityRideDataset.PassengerType passengerType) {  
+        Journey journey = new Journey(nextJourneyId, date, fromZone, toZone, timeBand, passengerType);  
+    
+        journeys.add(journey);  
+        nextJourneyId++;  
+    
+        System.out.println("Journey added.");  
+    }  
 
 }
 
@@ -222,8 +221,6 @@ the coding system is still difficult for me especially when i have to know w
 ---
 
 freeCodeCamp.org. (2018, October 16). Learn Java 8 - Full Tutorial for Beginners. [YouTube video]. Retrieved from: https://www.youtube.com/watch?v=grEKMHGYyns [Accessed 11 May 2026].
-
-
 
 ---
 
