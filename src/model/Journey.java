@@ -37,9 +37,7 @@ public class Journey {
     public int getZonesCrossed() {
         return Math.abs(toZone - fromZone) + 1;
     }
-
-    @Override
-    public String toString() {
+    public String showJourneyDetails() {
         return "ID: " + id
                 + " | Date: " + date
                 + " | From zone: " + fromZone
