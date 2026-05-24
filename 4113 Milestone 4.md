@@ -16,6 +16,20 @@
 
 - [x] *Where I have used AI, I have cited and referenced appropriately.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------
 
 ### Program Code
@@ -151,7 +165,8 @@ public class CityRideLiteApp {
         return passengerType;
     }
 
-    // Adapted from RustyKnight's Scanner integer input checking idea (RustyKnight, 2022).
+    // Adapted from RustyKnight's Scanner integer input checking idea 
+    //(RustyKnight, 2022).
     private int getNumberInput(String message) {
         int number = 0;
         boolean validNumber = false;
@@ -159,8 +174,8 @@ public class CityRideLiteApp {
         while (!validNumber) {
             System.out.print(message);
 
-            if (scanner.hasNextInt()) {
-                number = scanner.nextInt();
+            if (scanner.hasNextInt()) { // SOURCE IDEA
+                number = scanner.nextInt(); // SOURCE IDEA
                 validNumber = true;
             } else {
                 System.out.println("Please enter a number.");
@@ -257,6 +272,6 @@ The main problem I faced was understanding how the input methods are connected. 
 
 #### Reference
 
-RustyKnight. (2022, March 30). TerminalInput.java. [GitHub Gist]. Retrieved from: [A conceptually terminal parser for Java using Scanner · GitHub](https://gist.github.com/RustyKnight/93f07a59b1b17af7da9d7a5f15aa79a1) [Accessed 24 May 2026].
+RustyKnight. (2022, March 30). TerminalInput.java. [GitHub Gist]. Retrieved from: (https://gist.github.com/RustyKnight/93f07a59b1b17af7da9d7a5f15aa79a1) [Accessed 24 May 2026].
 
 ---
