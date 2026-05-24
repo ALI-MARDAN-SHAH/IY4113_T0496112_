@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class CityRideService {
 
-    // This list stores journeys while the program will be running
+    // This list stores journeys while the program is running.
     private ArrayList<Journey> journeys;
     private int nextJourneyId;
 
@@ -25,5 +25,15 @@ public class CityRideService {
         nextJourneyId++;
 
         System.out.println("Journey added.");
+    }
+
+    public void showAllJourneys() {
+        if (journeys.size() == 0) {
+            System.out.println("No journeys added yet.");
+            return;
+        }
+        for (Journey journey : journeys) {
+            System.out.println(journey.showJourneyDetails());
+        }
     }
 }

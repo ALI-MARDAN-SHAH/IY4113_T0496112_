@@ -1,12 +1,18 @@
 package main;
 
+import data.CityRideDataset;
+import service.CityRideService;
+
 import java.util.Scanner;
 
 public class CityRideLiteApp {
+
     private Scanner scanner;
+    private CityRideService service;
 
     public CityRideLiteApp() {
         scanner = new Scanner(System.in);
+        service = new CityRideService();
     }
 
     public static void main(String[] args) {
@@ -18,15 +24,18 @@ public class CityRideLiteApp {
         boolean running = true;
 
         System.out.println("===== CityRide Lite =====");
+
         while (running) {
             showMenu();
+
             System.out.print("Choose option: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
+
             if (choice == 1) {
-                System.out.println("Add journey selected.");
+                addTestJourney();
             } else if (choice == 2) {
-                System.out.println("List journeys selected.");
+                service.showAllJourneys();
             } else if (choice == 3) {
                 System.out.println("Daily summary selected.");
             } else if (choice == 0) {
@@ -35,6 +44,7 @@ public class CityRideLiteApp {
             } else {
                 System.out.println("Invalid option.");
             }
+
             System.out.println();
         }
     }
@@ -46,5 +56,15 @@ public class CityRideLiteApp {
         System.out.println("3. Daily summary");
         System.out.println("0. Exit");
         System.out.println("------------------------------");
+    }
+
+    private void addTestJourney() {
+        String date = "2026-05-24";
+        int fromZone = 1;
+        int toZone = 3;
+        CityRideDataset.TimeBand timeBand = CityRideDataset.TimeBand.PEAK;
+        CityRideDataset.PassengerType passengerType = CityRideDataset.PassengerType.ADULT;
+
+        service.addJourney(date, fromZone, toZone, timeBand, passengerType);
     }
 }
