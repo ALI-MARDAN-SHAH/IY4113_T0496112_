@@ -53,7 +53,7 @@ public class CityRideLiteApp {
         System.out.println("------------------------------");
         System.out.println("1. Add journey");
         System.out.println("2. List journeys");
-        System.out.println("3. Daily summary");
+        System.out.println("3. Daily summary ");
         System.out.println("0. Exit");
         System.out.println("------------------------------");
     }

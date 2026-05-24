@@ -2,7 +2,7 @@
 
 | Assessment Details | Please Complete All Details |
 | ------------------ | --------------------------- |
-| Group              |                             |
+| Group              | A                           |
 | Module Title       |                             |
 | Assessment Type    |                             |
 | Module Tutor Name  |                             |
@@ -11,10 +11,10 @@
 | Word Count         |                             |
 | GItHub Link        |                             |
 
-- [ ] *I confirm that this assignment is my own work. Where I have referred to academic sources, I have provided in-text citations and included the sources in
+- [x] *I confirm that this assignment is my own work. Where I have referred to academic sources, I have provided in-text citations and included the sources in
   the final reference list.*
 
-- [ ] *Where I have used AI, I have cited and referenced appropriately.
+- [x] *Where I have used AI, I have cited and referenced appropriately.
 
 ------------------------------------------------------------------------------------------------------------------------------
 
@@ -22,11 +22,11 @@
 
 ---
 
-Paste the current program code created so far. It does not have to be runnable code (document though if it does not work!)
+
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-*Program code goes here:*
+
 
 ------------------------------------------------------------------------------------------------------------------------------
 
@@ -42,6 +42,6 @@ Paste the current program code created so far. It does not have to be runnable c
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-*Add diary entries here detailing what you have done, wny you have done it, and any problems encountered.*
+
 
 ------------------------------------------------------------------------------------------------------------------------------

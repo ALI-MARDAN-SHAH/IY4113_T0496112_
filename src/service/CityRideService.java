@@ -29,7 +29,7 @@ public class CityRideService {
 
     public void showAllJourneys() {
         if (journeys.size() == 0) {
-            System.out.println("No journeys added yet.");
+            System.out.println("No journeys added yet");
             return;
         }
         for (Journey journey : journeys) {
