@@ -35,7 +35,7 @@ public class CityRideLiteApp {
             } else if (choice == 2) {
                 service.showAllJourneys();
             } else if (choice == 3) {
-                System.out.println("Daily summary selected.");
+                service.showDailySummary();
             } else if (choice == 0) {
                 System.out.println("Goodbye.");
                 running = false;
@@ -57,8 +57,7 @@ public class CityRideLiteApp {
     }
 
     private void addJourney() {
-        System.out.print("Enter date, for example 2026-05-24: ");
-        String date = scanner.nextLine();
+        String date = getDateInput();
 
         int fromZone = getValidZone("Enter start zone 1-5: ");
         int toZone = getValidZone("Enter destination zone 1-5: ");
@@ -67,6 +66,21 @@ public class CityRideLiteApp {
         CityRideDataset.PassengerType passengerType = getPassengerType();
 
         service.addJourney(date, fromZone, toZone, timeBand, passengerType);
+    }
+
+    private String getDateInput() {
+        String date = "";
+
+        while (date.isBlank()) {
+            System.out.print("Enter journey date (YYYY-MM-DD): ");
+            date = scanner.nextLine();
+
+            if (date.isBlank()) {
+                System.out.println("Date cannot be blank.");
+            }
+        }
+
+        return date;
     }
 
     private int getValidZone(String message) {
@@ -87,44 +101,59 @@ public class CityRideLiteApp {
     }
 
     private CityRideDataset.TimeBand getTimeBand() {
+        int option = 0;
         CityRideDataset.TimeBand timeBand = CityRideDataset.TimeBand.PEAK;
 
-        System.out.println("Choose time band:");
-        System.out.println("1. Peak");
-        System.out.println("2. Off-peak");
+        while (option != 1 && option != 2) {
+            System.out.println("Choose time band:");
+            System.out.println("1. Peak");
+            System.out.println("2. Off-peak");
 
-        int option = getNumberInput("Option: ");
+            option = getNumberInput("Option: ");
 
-        if (option == 2) {
-            timeBand = CityRideDataset.TimeBand.OFF_PEAK;
+            if (option == 1) {
+                timeBand = CityRideDataset.TimeBand.PEAK;
+            } else if (option == 2) {
+                timeBand = CityRideDataset.TimeBand.OFF_PEAK;
+            } else {
+                System.out.println("Invalid time band.");
+            }
         }
 
         return timeBand;
     }
 
     private CityRideDataset.PassengerType getPassengerType() {
+        int option = 0;
         CityRideDataset.PassengerType passengerType = CityRideDataset.PassengerType.ADULT;
 
-        System.out.println("Choose passenger type:");
-        System.out.println("1. Adult");
-        System.out.println("2. Student");
-        System.out.println("3. Child");
-        System.out.println("4. Senior Citizen");
+        while (option < 1 || option > 4) {
+            System.out.println("Choose passenger type:");
+            System.out.println("1. Adult");
+            System.out.println("2. Student");
+            System.out.println("3. Child");
+            System.out.println("4. Senior Citizen");
 
-        int option = getNumberInput("Option: ");
+            option = getNumberInput("Option: ");
 
-        if (option == 2) {
-            passengerType = CityRideDataset.PassengerType.STUDENT;
-        } else if (option == 3) {
-            passengerType = CityRideDataset.PassengerType.CHILD;
-        } else if (option == 4) {
-            passengerType = CityRideDataset.PassengerType.SENIOR_CITIZEN;
+            if (option == 1) {
+                passengerType = CityRideDataset.PassengerType.ADULT;
+            } else if (option == 2) {
+                passengerType = CityRideDataset.PassengerType.STUDENT;
+            } else if (option == 3) {
+                passengerType = CityRideDataset.PassengerType.CHILD;
+            } else if (option == 4) {
+                passengerType = CityRideDataset.PassengerType.SENIOR_CITIZEN;
+            } else {
+                System.out.println("Invalid passenger type.");
+            }
         }
 
         return passengerType;
     }
 
-    // Adapted from RustyKnights Scanner integer input checking idea (RustyKnight, 2022)
+    // Adapted from RustyKnight's Scanner integer input checking idea
+    // (RustyKnight, 2022)
     private int getNumberInput(String message) {
         int number = 0;
         boolean validNumber = false;
