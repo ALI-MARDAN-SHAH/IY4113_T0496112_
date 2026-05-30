@@ -36,6 +36,16 @@ public class CityRideLiteApp {
                 service.showAllJourneys();
             } else if (choice == 3) {
                 service.showDailySummary();
+            } else if (choice == 4) {
+                filterJourneys();
+            } else if (choice == 5) {
+                service.showPassengerTypeTotals();
+            } else if (choice == 6) {
+                service.showCategoryCounts();
+            } else if (choice == 7) {
+                removeJourney();
+            } else if (choice == 8) {
+                resetDay();
             } else if (choice == 0) {
                 System.out.println("Goodbye.");
                 running = false;
@@ -52,6 +62,11 @@ public class CityRideLiteApp {
         System.out.println("1. Add journey");
         System.out.println("2. List journeys");
         System.out.println("3. Daily summary");
+        System.out.println("4. Filter journeys");
+        System.out.println("5. Totals by passenger type");
+        System.out.println("6. Category counts");
+        System.out.println("7. Remove journey");
+        System.out.println("8. Reset day");
         System.out.println("0. Exit");
         System.out.println("------------------------------");
     }
@@ -150,6 +165,55 @@ public class CityRideLiteApp {
         }
 
         return passengerType;
+    }
+    private void filterJourneys() {
+        System.out.println("Choose filter type:");
+        System.out.println("1. Passenger type");
+        System.out.println("2. Time band");
+        System.out.println("3. Zone");
+        System.out.println("4. Date");
+
+        int option = getNumberInput("Option: ");
+
+        if (option == 1) {
+            CityRideDataset.PassengerType passengerType = getPassengerType();
+            service.filterByPassengerType(passengerType);
+        } else if (option == 2) {
+            CityRideDataset.TimeBand timeBand = getTimeBand();
+            service.filterByTimeBand(timeBand);
+        } else if (option == 3) {
+            int zone = getValidZone("Enter zone 1-5: ");
+            service.filterByZone(zone);
+        } else if (option == 4) {
+            String date = getDateInput();
+            service.filterByDate(date);
+        } else {
+            System.out.println("Invalid filter option.");
+        }
+    }
+
+    private void removeJourney() {
+        int journeyId = getNumberInput("Enter journey ID to remove: ");
+
+        System.out.print("Are you sure you want to remove this journey? yes/no: ");
+        String confirm = scanner.nextLine();
+
+        if (confirm.equals("yes")) {
+            service.removeJourney(journeyId);
+        } else {
+            System.out.println("Remove cancelled.");
+        }
+    }
+
+    private void resetDay() {
+        System.out.print("Are you sure you want to reset the day? yes/no: ");
+        String confirm = scanner.nextLine();
+
+        if (confirm.equals("yes")) {
+            service.resetDay();
+        } else {
+            System.out.println("Reset cancelled.");
+        }
     }
 
     // Adapted from RustyKnight's Scanner integer input checking idea
