@@ -88,17 +88,31 @@ public class CityRideService {
 
     private void showTotalForPassengerType(CityRideDataset.PassengerType passengerType) {
         int count = 0;
-        double total = 0;
+        double baseTotal = 0;
+        double discountTotal = 0;
+        double chargedTotal = 0;
 
         for (Journey journey : journeys) {
             if (journey.getPassengerType() == passengerType) {
                 count++;
-                total = total + journey.getChargedFare();
+                baseTotal = baseTotal + journey.getBaseFare();
+                discountTotal = discountTotal + journey.getDiscountAmount();
+                chargedTotal = chargedTotal + journey.getChargedFare();
             }
         }
 
+        double dailyCap = CityRideDataset.DAILY_CAP.get(passengerType).doubleValue();
+        String capReached = "No";
+
+        if (chargedTotal >= dailyCap) {
+            capReached = "Yes";
+        }
+
         System.out.println(passengerType + " journeys: " + count
-                + " | Total charged: £" + String.format("%.2f", total));
+                + " | Base total: £" + String.format("%.2f", baseTotal)
+                + " | Discount total: £" + String.format("%.2f", discountTotal)
+                + " | Charged total: £" + String.format("%.2f", chargedTotal)
+                + " | Cap reached: " + capReached);
     }
 
     public void showCategoryCounts() {
