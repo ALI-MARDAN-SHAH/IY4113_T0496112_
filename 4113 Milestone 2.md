@@ -8,7 +8,7 @@
 | Module Tutor Name  | Shore, Jonathan                                                         |
 | Student ID Number  | T0496112                                                                |
 | Date of Submission | 5/10/2026                                                               |
-| Word Count         |                                                                         |
+| Word Count         | 686                                                                     |
 
 - [x] *I confirm that this assignment is my own work. Where I have referred to academic sources, I have provided in-text citations and included the sources in
   the final reference list.*
@@ -119,7 +119,7 @@ Today I have looked into the algorithm design section of the assignment. I made 
 Today I examined the same transport management systems on GitHub
 to help and improve my own project and as I am new to GitHub it was difficult at first time to figure out how to search for projects and explore repositories and find systems identical to my program and I have spent time learning how GitHub actually works.
 
-After exploring different repositories I found a project named Transport Management System which was identical to my program the system supervises transport bookings and payments and tickets and passengers and journeys.
+After exploring different repositories I found a project named Transport Management System which was identical to my program the system supervises transport bookings and payments and tickets and passengers and journeys. 
 
 One thing the project has done well is distancing passenger and booking and payment functionality into organised components and It also uses a exact dashboard and a structured navigation system which creates the application very easier.
 

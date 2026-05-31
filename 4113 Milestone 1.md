@@ -8,7 +8,7 @@
 | Module Tutor Name  | Shore, Jonathan                                                         |
 | Student ID Number  | T0496112                                                                |
 | Date of Submission | 5/4/2026                                                                |
-| Word Count         | 1602                                                                    |
+| Word Count         | 1600                                                                    |
 
 - [x] *I confirm that this assignment is my own work. Where I have referred to academic sources, I have provided in-text citations and included the sources in
   the final reference list.*
@@ -111,23 +111,23 @@ We have 12 System Contraints
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-| Feature / Task           | Inputs                                                        | Processing (what the system does)                                                                      | Outputs                                           |
-| ------------------------ | ------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------| ------------------------------------------------- |
-| Start program            | None                                                          | The program starts and prepares an empty list for journeys                                             | Main menu is displayed                            |
-| Display main menu        | User menu choice                                              | The program checks the user choice and opens the correct option                                        | The selected option is shown                      |
-| Add a journey            | Date, start zone, destination zone, time band, passenger type | The program takes the journey details from the user                                                    | Journey details are entered                       |
-| Check journey details    | Journey details entered by the user                           | The program checks that the zones, time band, and passenger type are correct                           | Details are accepted or an error message is shown |
-| Count zones travelled    | Start zone and destination zone                               | The program counts all zones included in the journey and including the start and end zones             | Number of zones travelled is found                |
-| Calculate fare           | Zones travelled, time band, and passenger type                | The program finds the correct ticket price and applies the passenger discount and checks the daily cap | Final fare for the journey is calculated          |
-| Store journey            | Valid journey details and final fare                          | The program gives the journey an ID and saves it during the current run                                | Journey is added successfully                     |
-| List journeys            | Menu choice                                                   | The program reads all journeys added so far                                                            | All journeys are displayed                        |
-| Filter journeys          | Filter choice and search value                                | The program will search journeys by passenger type and time band and zone and date                     | Matching journeys are displayed                   |
-| Remove journey           | Journey ID                                                    | The program checks if the ID exists and removes the journey if confirmed                               | Journey is removed or an error message is shown   |
-| Reset day                | User confirmation                                             | The program clears all journeys and totals if the user confirms                                        | All journey data is cleared                       |
-| Daily summary            | Saved journeys                                                | The program counts journeys and total cost and average cost and the most expensive journey             | Daily summary is displayed                        |
-| Totals by passenger type | Saved journeys                                                | The program groups journeys by passenger type and works out totals                                     | Passenger type totals are displayed               |
-| Category counts          | Saved journeys                                                | The program counts peak and off-peak journeys and zone                                                 | Category count are displayed                      |
-| Exit program             | Exit choice                                                   | The program stops running                                                                              | Goodbye message is displayed                      |
+| Feature / Task           | Inputs                                                        | Processing (what the system does)                                                                           | Outputs                                           |
+| ------------------------ | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| Start program            | None                                                          | The program starts and prepares an empty list for journeys                                                  | Main menu is displayed                            |
+| Display main menu        | User menu choice                                              | The program checks the user choice and opens the correct option                                             | The selected option is shown                      |
+| Add a journey            | Date, start zone, destination zone, time band, passenger type | The program takes the journey details from the user                                                         | Journey details are entered                       |
+| Check journey details    | Journey details entered by the user                           | The program checks that the zones, time band, and passenger type are correct                                | Details are accepted or an error message is shown |
+| Count zones travelled    | Start zone and destination zone                               | The program counts all zones included in the journey and including the start and end zones                  | Number of zones travelled is found                |
+| Calculate fare           | Zones travelled, time band, and passenger type                | The program finds the correct ticket price and then applies the passenger discount and checks the daily cap | Final fare for the journey is calculated          |
+| Store journey            | Valid journey details and final fare                          | The program gives the journey an ID and saves it during the current run                                     | Journey is added successfully                     |
+| List journeys            | Menu choice                                                   | The program reads all journeys added so far                                                                 | All journeys are displayed                        |
+| Filter journeys          | Filter choice and search value                                | The program will search journeys by passenger type and time band, zone and date                             | Matching journeys are displayed                   |
+| Remove journey           | Journey ID                                                    | The program checks if the ID exists and removes the journey if confirmed                                    | Journey is removed or an error message is shown   |
+| Reset day                | User confirmation                                             | The program clears all journeys and totals if the user confirms                                             | All journey data is cleared                       |
+| Daily summary            | Saved journeys                                                | The program counts journeys and total cost and average cost and the most expensive journey                  | Daily summary is displayed                        |
+| Totals by passenger type | Saved journeys                                                | The program groups journeys by passenger type and works out totals                                          | Passenger type totals are displayed               |
+| Category counts          | Saved journeys                                                | The program counts peak and off-peak journeys and zone                                                      | Category count are displayed                      |
+| Exit program             | Exit choice                                                   | The program stops running                                                                                   | Goodbye message is displayed                      |
 
 ------------------------------------------------------------------------------------------------------------------------------
 
@@ -146,6 +146,8 @@ We have 12 System Contraints
 HIGH QUALITY WILL BE PROVIDED IF ASKED
 
 ------------------------------------------------------------------------------------------------------------------------------
+
+### Diary Entries
 
 ------------------------------------------------------------------------------------------------------------------------------
 

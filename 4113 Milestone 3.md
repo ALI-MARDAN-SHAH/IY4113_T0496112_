@@ -8,7 +8,7 @@
 | Module Tutor Name  | Shore, Jonathan                                                         |
 | Student ID Number  | T0496112                                                                |
 | Date of Submission | 17/05/2026                                                              |
-| Word Count         | 1160                                                                    |
+| Word Count         | 1119                                                                    |
 
 - [x] *I confirm that this assignment is my own work. Where I have referred to academic sources, I have provided in-text citations and included the sources in
   the final reference list.*
@@ -89,6 +89,7 @@ the program is still in the starting coding stage for Milestone 4 the code below
 
 ---
 
+```java
 package model;
 
 import data.CityRideDataset;
@@ -101,7 +102,7 @@ public class Journey {
     private int toZone;
     private CityRideDataset.TimeBand timeBand;
     private CityRideDataset.PassengerType passengerType;
-    
+
     public Journey(int id, String date, int fromZone, int toZone,
                    CityRideDataset.TimeBand timeBand,
                    CityRideDataset.PassengerType passengerType) {
@@ -112,23 +113,23 @@ public class Journey {
         this.timeBand = timeBand;
         this.passengerType = passengerType;
     }
-    
+
     public int getId() {
         return id;
     }
-    
+
     public int getFromZone() {
         return fromZone;
     }
-    
+
     public int getToZone() {
         return toZone;
     }
-    
+
     public int getZonesCrossed() {
         return Math.abs(toZone - fromZone) + 1;
     }
-    
+
     public String showJourneyDetails() {
         return "ID: " + id
                 + " | Date: " + date
@@ -138,8 +139,8 @@ public class Journey {
                 + " | Passenger: " + passengerType
                 + " | Zones crossed: " + getZonesCrossed();
     }
-
 }
+```
 
 ---
 
@@ -147,38 +148,38 @@ public class Journey {
 
 ---
 
-package service;  
+```java
+package service;
 
-import data.CityRideDataset;  
-import model.Journey;  
+import data.CityRideDataset;
+import model.Journey;
 
-import java.util.ArrayList;  
+import java.util.ArrayList;
 
-public class CityRideService {  
+public class CityRideService {
 
-    // This list stores journeys while the program will be running  
-    private ArrayList<Journey> journeys;  
-    private int nextJourneyId;  
-    
-    public CityRideService() {  
-        journeys = new ArrayList<>();  
-        nextJourneyId = 1;  
-    }  
-    
-    public void addJourney(String date, int fromZone, int toZone,  
-                           CityRideDataset.TimeBand timeBand,  
-                           CityRideDataset.PassengerType passengerType) {  
-        Journey journey = new Journey(nextJourneyId, date, fromZone, toZone, timeBand, passengerType);  
-    
-        journeys.add(journey);  
-        nextJourneyId++;  
-    
-        System.out.println("Journey added.");  
-    }  
+    // This list stores journeys while the program will be running.
+    private ArrayList<Journey> journeys;
+    private int nextJourneyId;
 
+    public CityRideService() {
+        journeys = new ArrayList<>();
+        nextJourneyId = 1;
+    }
+
+    public void addJourney(String date, int fromZone, int toZone,
+                           CityRideDataset.TimeBand timeBand,
+                           CityRideDataset.PassengerType passengerType) {
+        Journey journey = new Journey(nextJourneyId, date, fromZone, toZone,
+                timeBand, passengerType);
+
+        journeys.add(journey);
+        nextJourneyId++;
+
+        System.out.println("Journey added.");
+    }
 }
-
----
+```
 
 ------------------------------------------------------------------------------------------------------------------------------
 
@@ -215,13 +216,3 @@ in this cityrideservice.java i began to use an arraylist for storing journ
 the coding system is still difficult for me especially when i have to know where each piece of the code should go as i am still learning to use github properly making it into smaller commits helped me a lot to figure out my progress in a better way.
 
 ---
-
-### REFERENCES :
-
----
-
-freeCodeCamp.org. (2018, October 16). Learn Java 8 - Full Tutorial for Beginners. [YouTube video]. Retrieved from: https://www.youtube.com/watch?v=grEKMHGYyns [Accessed 11 May 2026].
-
----
-
-Bro Code. (2020, September 27). Java Full Course for free. [YouTube video]. Retrieved from: https://www.youtube.com/watch?v=xk4_1vDrzzo [Accessed 13 May 2026].
