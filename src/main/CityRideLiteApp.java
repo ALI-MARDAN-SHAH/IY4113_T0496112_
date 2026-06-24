@@ -3,6 +3,7 @@ package main;
 import data.CityRideDataset;
 import service.CityRideService;
 import service.RiderProfileService;
+import service.ConfigService;
 
 import java.util.Scanner;
 
@@ -11,11 +12,13 @@ public class CityRideLiteApp {
     private Scanner scanner;
     private CityRideService service;
     private RiderProfileService riderProfileService;
+    private ConfigService configService;
 
     public CityRideLiteApp() {
         scanner = new Scanner(System.in);
         service = new CityRideService();
         riderProfileService = new RiderProfileService();
+        configService = new ConfigService();
     }
 
     public static void main(String[] args) {
@@ -53,6 +56,14 @@ public class CityRideLiteApp {
                 riderProfileService.createProfile(scanner);
             } else if (choice == 10) {
                 riderProfileService.displayProfile();
+            } else if (choice == 11) {
+                riderProfileService.saveProfile();
+            } else if (choice == 12) {
+                riderProfileService.loadProfile();
+            } else if (choice == 13) {
+                configService.displayConfig();
+            } else if (choice == 14) {
+                configService.saveConfig();
             } else if (choice == 0) {
                 System.out.println("Goodbye.");
                 running = false;
@@ -76,6 +87,10 @@ public class CityRideLiteApp {
         System.out.println("8. Reset day");
         System.out.println("9. Create rider profile");
         System.out.println("10. View rider profile");
+        System.out.println("11. Save rider profile");
+        System.out.println("12. Load rider profile");
+        System.out.println("13. View fare config");
+        System.out.println("14. Save fare config");
         System.out.println("0. Exit");
         System.out.println("------------------------------");
     }
