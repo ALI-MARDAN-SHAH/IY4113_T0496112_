@@ -64,6 +64,8 @@ public class CityRideLiteApp {
                 configService.displayConfig();
             } else if (choice == 14) {
                 configService.saveConfig();
+            } else if (choice == 15) {
+                editJourney();
             } else if (choice == 0) {
                 System.out.println("Goodbye.");
                 running = false;
@@ -91,6 +93,7 @@ public class CityRideLiteApp {
         System.out.println("12. Load rider profile");
         System.out.println("13. View fare config");
         System.out.println("14. Save fare config");
+        System.out.println("15. Edit journey");
         System.out.println("0. Exit");
         System.out.println("------------------------------");
     }
@@ -227,6 +230,22 @@ public class CityRideLiteApp {
         } else {
             System.out.println("Remove cancelled.");
         }
+    }
+
+    private void editJourney() {
+        int journeyId = getNumberInput("Enter journey ID to edit: ");
+
+        System.out.println("Enter the new journey details.");
+
+        String date = getDateInput();
+
+        int fromZone = getValidZone("Enter new start zone 1-5: ");
+        int toZone = getValidZone("Enter new destination zone 1-5: ");
+
+        CityRideDataset.TimeBand timeBand = getTimeBand();
+        CityRideDataset.PassengerType passengerType = getPassengerType();
+
+        service.editJourney(journeyId, date, fromZone, toZone, timeBand, passengerType);
     }
 
     private void resetDay() {

@@ -232,7 +232,8 @@ public class CityRideService {
 
             if (journey.getId() == journeyId) {
                 journeys.remove(i);
-                System.out.println("Journey removed.");
+                recalculateAllJourneyFares();
+                System.out.println("Journey removed and totals recalculated.");
                 return true;
             }
         }
@@ -241,11 +242,95 @@ public class CityRideService {
         return false;
     }
 
+    public boolean editJourney(int journeyId, String date, int fromZone, int toZone,
+                               CityRideDataset.TimeBand timeBand,
+                               CityRideDataset.PassengerType passengerType) {
+        boolean journeyEdited = false;
+
+        for (Journey journey : journeys) {
+            if (journey.getId() == journeyId) {
+                journey.setDate(date);
+                journey.setFromZone(fromZone);
+                journey.setToZone(toZone);
+                journey.setTimeBand(timeBand);
+                journey.setPassengerType(passengerType);
+
+                recalculateAllJourneyFares();
+
+                System.out.println("Journey updated.");
+                journeyEdited = true;
+            }
+        }
+
+        if (!journeyEdited) {
+            System.out.println("Journey ID not found.");
+        }
+
+        return journeyEdited;
+    }
+
     public void resetDay() {
         journeys.clear();
         nextJourneyId = 1;
         System.out.println("Day reset complete.");
     }
+
+    private void recalculateAllJourneyFares() {
+        double adultTotal = 0;
+        double studentTotal = 0;
+        double childTotal = 0;
+        double seniorCitizenTotal = 0;
+
+        for (Journey journey : journeys) {
+            double baseFare = CityRideDataset.getBaseFare(
+                    journey.getFromZone(),
+                    journey.getToZone(),
+                    journey.getTimeBand()).doubleValue();
+
+            double discountRate = CityRideDataset.DISCOUNT_RATE
+                    .get(journey.getPassengerType()).doubleValue();
+
+            double discountAmount = baseFare * discountRate;
+            double discountedFare = baseFare - discountAmount;
+            double dailyCap = CityRideDataset.DAILY_CAP
+                    .get(journey.getPassengerType()).doubleValue();
+
+            double currentTotal = 0;
+
+            if (journey.getPassengerType() == CityRideDataset.PassengerType.ADULT) {
+                currentTotal = adultTotal;
+            } else if (journey.getPassengerType() == CityRideDataset.PassengerType.STUDENT) {
+                currentTotal = studentTotal;
+            } else if (journey.getPassengerType() == CityRideDataset.PassengerType.CHILD) {
+                currentTotal = childTotal;
+            } else if (journey.getPassengerType() == CityRideDataset.PassengerType.SENIOR_CITIZEN) {
+                currentTotal = seniorCitizenTotal;
+            }
+
+            double chargedFare = discountedFare;
+
+            if (currentTotal >= dailyCap) {
+                chargedFare = 0;
+            } else if (currentTotal + discountedFare > dailyCap) {
+                chargedFare = dailyCap - currentTotal;
+            }
+
+            journey.setBaseFare(baseFare);
+            journey.setDiscountAmount(discountAmount);
+            journey.setChargedFare(chargedFare);
+
+            if (journey.getPassengerType() == CityRideDataset.PassengerType.ADULT) {
+                adultTotal = adultTotal + chargedFare;
+            } else if (journey.getPassengerType() == CityRideDataset.PassengerType.STUDENT) {
+                studentTotal = studentTotal + chargedFare;
+            } else if (journey.getPassengerType() == CityRideDataset.PassengerType.CHILD) {
+                childTotal = childTotal + chargedFare;
+            } else if (journey.getPassengerType() == CityRideDataset.PassengerType.SENIOR_CITIZEN) {
+                seniorCitizenTotal = seniorCitizenTotal + chargedFare;
+            }
+        }
+    }
+
     // AI-assisted method and modified and tested for the CityRide Lite daily cap calculation
     // (OpenAI, 2026)
     private double applyDailyCap(CityRideDataset.PassengerType passengerType, double discountedFare) {

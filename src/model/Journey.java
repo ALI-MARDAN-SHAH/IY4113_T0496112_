@@ -65,6 +65,38 @@ public class Journey {
         return chargedFare;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setFromZone(int fromZone) {
+        this.fromZone = fromZone;
+    }
+
+    public void setToZone(int toZone) {
+        this.toZone = toZone;
+    }
+
+    public void setTimeBand(CityRideDataset.TimeBand timeBand) {
+        this.timeBand = timeBand;
+    }
+
+    public void setPassengerType(CityRideDataset.PassengerType passengerType) {
+        this.passengerType = passengerType;
+    }
+
+    public void setBaseFare(double baseFare) {
+        this.baseFare = baseFare;
+    }
+
+    public void setDiscountAmount(double discountAmount) {
+        this.discountAmount = discountAmount;
+    }
+
+    public void setChargedFare(double chargedFare) {
+        this.chargedFare = chargedFare;
+    }
+
     public int getZonesCrossed() {
         return Math.abs(toZone - fromZone) + 1;
     }
