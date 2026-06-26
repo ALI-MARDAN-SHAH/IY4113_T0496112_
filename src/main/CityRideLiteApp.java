@@ -66,6 +66,10 @@ public class CityRideLiteApp {
                 configService.saveConfig();
             } else if (choice == 15) {
                 editJourney();
+            } else if (choice == 16) {
+                service.exportJourneysToCsv();
+            } else if (choice == 17) {
+                service.exportDailySummaryReports();
             } else if (choice == 0) {
                 System.out.println("Goodbye.");
                 running = false;
@@ -94,6 +98,8 @@ public class CityRideLiteApp {
         System.out.println("13. View fare config");
         System.out.println("14. Save fare config");
         System.out.println("15. Edit journey");
+        System.out.println("16. Export journeys to CSV");
+        System.out.println("17. Export daily summary reports");
         System.out.println("0. Exit");
         System.out.println("------------------------------");
     }

@@ -3,6 +3,8 @@ package service;
 import data.CityRideDataset;
 import model.Journey;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class CityRideService {
@@ -73,6 +75,98 @@ public class CityRideService {
         System.out.println("Most expensive journey ID: " + mostExpensiveJourney.getId());
         System.out.println("Most expensive journey cost: £" + String.format("%.2f", mostExpensiveJourney.getChargedFare()));
     }
+
+    public void exportJourneysToCsv() {
+        if (journeys.size() == 0) {
+            System.out.println("No journeys to export.");
+            return;
+        }
+
+        try {
+            PrintWriter writer = new PrintWriter(new FileWriter("journeys_export.csv"));
+
+            writer.println("id,date,fromZone,toZone,timeBand,passengerType,zonesCrossed,baseFare,discountAmount,chargedFare");
+
+            for (Journey journey : journeys) {
+                writer.println(journey.getId() + ","
+                        + journey.getDate() + ","
+                        + journey.getFromZone() + ","
+                        + journey.getToZone() + ","
+                        + journey.getTimeBand() + ","
+                        + journey.getPassengerType() + ","
+                        + journey.getZonesCrossed() + ","
+                        + String.format("%.2f", journey.getBaseFare()) + ","
+                        + String.format("%.2f", journey.getDiscountAmount()) + ","
+                        + String.format("%.2f", journey.getChargedFare()));
+            }
+
+            writer.close();
+
+            System.out.println("Journeys exported to journeys_export.csv");
+        } catch (Exception e) {
+            System.out.println("Error exporting journeys to CSV.");
+        }
+    }
+
+    public void exportDailySummaryReports() {
+        if (journeys.size() == 0) {
+            System.out.println("No journeys to export in report.");
+            return;
+        }
+
+        double totalCost = 0;
+        Journey mostExpensiveJourney = journeys.get(0);
+
+        for (Journey journey : journeys) {
+            totalCost = totalCost + journey.getChargedFare();
+
+            if (journey.getChargedFare() > mostExpensiveJourney.getChargedFare()) {
+                mostExpensiveJourney = journey;
+            }
+        }
+
+        double averageCost = totalCost / journeys.size();
+
+        try {
+            PrintWriter textWriter = new PrintWriter(new FileWriter("daily_summary_report.txt"));
+
+            textWriter.println("===== CityRide Lite Daily Summary Report =====");
+            textWriter.println();
+            textWriter.println("Total journeys: " + journeys.size());
+            textWriter.println("Total cost: £" + String.format("%.2f", totalCost));
+            textWriter.println("Average cost: £" + String.format("%.2f", averageCost));
+            textWriter.println("Most expensive journey ID: " + mostExpensiveJourney.getId());
+            textWriter.println("Most expensive journey cost: £" + String.format("%.2f", mostExpensiveJourney.getChargedFare()));
+            textWriter.println();
+            textWriter.println("Passenger type totals:");
+            textWriter.println("Adult total: £" + String.format("%.2f", getPassengerTypeTotal(CityRideDataset.PassengerType.ADULT)));
+            textWriter.println("Student total: £" + String.format("%.2f", getPassengerTypeTotal(CityRideDataset.PassengerType.STUDENT)));
+            textWriter.println("Child total: £" + String.format("%.2f", getPassengerTypeTotal(CityRideDataset.PassengerType.CHILD)));
+            textWriter.println("Senior Citizen total: £" + String.format("%.2f", getPassengerTypeTotal(CityRideDataset.PassengerType.SENIOR_CITIZEN)));
+
+            textWriter.close();
+
+            PrintWriter csvWriter = new PrintWriter(new FileWriter("daily_summary_report.csv"));
+
+            csvWriter.println("item,value");
+            csvWriter.println("Total journeys," + journeys.size());
+            csvWriter.println("Total cost," + String.format("%.2f", totalCost));
+            csvWriter.println("Average cost," + String.format("%.2f", averageCost));
+            csvWriter.println("Most expensive journey ID," + mostExpensiveJourney.getId());
+            csvWriter.println("Most expensive journey cost," + String.format("%.2f", mostExpensiveJourney.getChargedFare()));
+            csvWriter.println("Adult total," + String.format("%.2f", getPassengerTypeTotal(CityRideDataset.PassengerType.ADULT)));
+            csvWriter.println("Student total," + String.format("%.2f", getPassengerTypeTotal(CityRideDataset.PassengerType.STUDENT)));
+            csvWriter.println("Child total," + String.format("%.2f", getPassengerTypeTotal(CityRideDataset.PassengerType.CHILD)));
+            csvWriter.println("Senior Citizen total," + String.format("%.2f", getPassengerTypeTotal(CityRideDataset.PassengerType.SENIOR_CITIZEN)));
+
+            csvWriter.close();
+
+            System.out.println("Daily summary reports exported to daily_summary_report.txt and daily_summary_report.csv");
+        } catch (Exception e) {
+            System.out.println("Error exporting daily summary reports.");
+        }
+    }
+
     public void showPassengerTypeTotals() {
         if (journeys.size() == 0) {
             System.out.println("No journeys added yet.");
