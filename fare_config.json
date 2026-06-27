@@ -1,0 +1,14 @@
+{
+  "adultDiscount": 0.0,
+  "studentDiscount": 0.3,
+  "childDiscount": 0.5,
+  "seniorCitizenDiscount": 0.3,
+  "adultDailyCap": 8.0,
+  "studentDailyCap": 5.5,
+  "childDailyCap": 4.0,
+  "seniorCitizenDailyCap": 7.0,
+  "morningPeakStart": "07:00",
+  "morningPeakEnd": "09:30",
+  "eveningPeakStart": "16:30",
+  "eveningPeakEnd": "19:00"
+}

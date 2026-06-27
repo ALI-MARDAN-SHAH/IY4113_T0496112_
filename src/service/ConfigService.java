@@ -2,6 +2,7 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import data.CityRideDataset;
 import model.FareConfig;
 
 import java.io.FileReader;
@@ -67,6 +68,63 @@ public class ConfigService {
 
         System.out.println("Morning Peak: " + fareConfig.getMorningPeakStart() + " - " + fareConfig.getMorningPeakEnd());
         System.out.println("Evening Peak: " + fareConfig.getEveningPeakStart() + " - " + fareConfig.getEveningPeakEnd());
+    }
+
+    public boolean updateDiscount(CityRideDataset.PassengerType passengerType, double discountRate) {
+        if (discountRate < 0 || discountRate > 1) {
+            System.out.println("Discount rate must be between 0.00 and 1.00.");
+            return false;
+        }
+
+        if (passengerType == CityRideDataset.PassengerType.ADULT) {
+            fareConfig.setAdultDiscount(discountRate);
+        } else if (passengerType == CityRideDataset.PassengerType.STUDENT) {
+            fareConfig.setStudentDiscount(discountRate);
+        } else if (passengerType == CityRideDataset.PassengerType.CHILD) {
+            fareConfig.setChildDiscount(discountRate);
+        } else if (passengerType == CityRideDataset.PassengerType.SENIOR_CITIZEN) {
+            fareConfig.setSeniorCitizenDiscount(discountRate);
+        }
+
+        System.out.println("Discount updated.");
+        return true;
+    }
+
+    public boolean updateDailyCap(CityRideDataset.PassengerType passengerType, double dailyCap) {
+        if (dailyCap <= 0) {
+            System.out.println("Daily cap must be greater than 0.");
+            return false;
+        }
+
+        if (passengerType == CityRideDataset.PassengerType.ADULT) {
+            fareConfig.setAdultDailyCap(dailyCap);
+        } else if (passengerType == CityRideDataset.PassengerType.STUDENT) {
+            fareConfig.setStudentDailyCap(dailyCap);
+        } else if (passengerType == CityRideDataset.PassengerType.CHILD) {
+            fareConfig.setChildDailyCap(dailyCap);
+        } else if (passengerType == CityRideDataset.PassengerType.SENIOR_CITIZEN) {
+            fareConfig.setSeniorCitizenDailyCap(dailyCap);
+        }
+
+        System.out.println("Daily cap updated.");
+        return true;
+    }
+
+    public boolean updatePeakTimes(String morningStart, String morningEnd,
+                                   String eveningStart, String eveningEnd) {
+        if (morningStart.isBlank() || morningEnd.isBlank()
+                || eveningStart.isBlank() || eveningEnd.isBlank()) {
+            System.out.println("Peak time values cannot be blank.");
+            return false;
+        }
+
+        fareConfig.setMorningPeakStart(morningStart);
+        fareConfig.setMorningPeakEnd(morningEnd);
+        fareConfig.setEveningPeakStart(eveningStart);
+        fareConfig.setEveningPeakEnd(eveningEnd);
+
+        System.out.println("Peak times updated.");
+        return true;
     }
 
     public FareConfig getFareConfig() {

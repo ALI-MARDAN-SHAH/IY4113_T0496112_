@@ -70,6 +70,8 @@ public class CityRideLiteApp {
                 service.exportJourneysToCsv();
             } else if (choice == 17) {
                 service.exportDailySummaryReports();
+            } else if (choice == 18) {
+                adminMenu();
             } else if (choice == 0) {
                 System.out.println("Goodbye.");
                 running = false;
@@ -100,6 +102,7 @@ public class CityRideLiteApp {
         System.out.println("15. Edit journey");
         System.out.println("16. Export journeys to CSV");
         System.out.println("17. Export daily summary reports");
+        System.out.println("18. Admin menu");
         System.out.println("0. Exit");
         System.out.println("------------------------------");
     }
@@ -263,6 +266,101 @@ public class CityRideLiteApp {
         } else {
             System.out.println("Reset cancelled.");
         }
+    }
+
+    private void adminMenu() {
+        System.out.print("Enter admin password: ");
+        String password = scanner.nextLine();
+
+        if (!password.equals("admin123")) {
+            System.out.println("Incorrect admin password.");
+            return;
+        }
+
+        boolean adminRunning = true;
+
+        while (adminRunning) {
+            System.out.println("\n===== Admin Menu =====");
+            System.out.println("1. View fare config");
+            System.out.println("2. Update discount");
+            System.out.println("3. Update daily cap");
+            System.out.println("4. Update peak times");
+            System.out.println("5. Save fare config");
+            System.out.println("0. Return to main menu");
+
+            int option = getNumberInput("Choose admin option: ");
+
+            if (option == 1) {
+                configService.displayConfig();
+            } else if (option == 2) {
+                updateDiscount();
+            } else if (option == 3) {
+                updateDailyCap();
+            } else if (option == 4) {
+                updatePeakTimes();
+            } else if (option == 5) {
+                configService.saveConfig();
+            } else if (option == 0) {
+                adminRunning = false;
+            } else {
+                System.out.println("Invalid admin option.");
+            }
+        }
+    }
+
+    private void updateDiscount() {
+        CityRideDataset.PassengerType passengerType = getPassengerType();
+
+        System.out.println("Enter discount as a decimal.");
+        System.out.println("Example: 0.25 means 25% discount.");
+
+        double discountRate = getDoubleInput("Enter new discount rate: ");
+
+        configService.updateDiscount(passengerType, discountRate);
+    }
+
+    private void updateDailyCap() {
+        CityRideDataset.PassengerType passengerType = getPassengerType();
+
+        double dailyCap = getDoubleInput("Enter new daily cap: £");
+
+        configService.updateDailyCap(passengerType, dailyCap);
+    }
+
+    private void updatePeakTimes() {
+        System.out.print("Enter morning peak start time: ");
+        String morningStart = scanner.nextLine();
+
+        System.out.print("Enter morning peak end time: ");
+        String morningEnd = scanner.nextLine();
+
+        System.out.print("Enter evening peak start time: ");
+        String eveningStart = scanner.nextLine();
+
+        System.out.print("Enter evening peak end time: ");
+        String eveningEnd = scanner.nextLine();
+
+        configService.updatePeakTimes(morningStart, morningEnd, eveningStart, eveningEnd);
+    }
+
+    private double getDoubleInput(String message) {
+        double number = 0;
+        boolean validNumber = false;
+
+        while (!validNumber) {
+            System.out.print(message);
+
+            if (scanner.hasNextDouble()) {
+                number = scanner.nextDouble();
+                validNumber = true;
+            } else {
+                System.out.println("Please enter a valid number.");
+            }
+
+            scanner.nextLine();
+        }
+
+        return number;
     }
 
     // Adapted from RustyKnight's Scanner integer input checking idea
