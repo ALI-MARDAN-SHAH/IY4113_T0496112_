@@ -2,6 +2,8 @@ package model;
 
 import data.CityRideDataset;
 
+import java.math.BigDecimal;
+
 public class Journey {
 
     private int id;
@@ -10,14 +12,26 @@ public class Journey {
     private int toZone;
     private CityRideDataset.TimeBand timeBand;
     private CityRideDataset.PassengerType passengerType;
-    private double baseFare;
-    private double discountAmount;
-    private double chargedFare;
+    private BigDecimal baseFare;
+    private BigDecimal discountAmount;
+    private BigDecimal chargedFare;
+
+    public Journey() {
+        id = 0;
+        date = "";
+        fromZone = 0;
+        toZone = 0;
+        timeBand = CityRideDataset.TimeBand.OFF_PEAK;
+        passengerType = CityRideDataset.PassengerType.ADULT;
+        baseFare = new BigDecimal("0.00");
+        discountAmount = new BigDecimal("0.00");
+        chargedFare = new BigDecimal("0.00");
+    }
 
     public Journey(int id, String date, int fromZone, int toZone,
                    CityRideDataset.TimeBand timeBand,
                    CityRideDataset.PassengerType passengerType,
-                   double baseFare, double discountAmount, double chargedFare) {
+                   BigDecimal baseFare, BigDecimal discountAmount, BigDecimal chargedFare) {
         this.id = id;
         this.date = date;
         this.fromZone = fromZone;
@@ -53,15 +67,15 @@ public class Journey {
         return date;
     }
 
-    public double getBaseFare() {
+    public BigDecimal getBaseFare() {
         return baseFare;
     }
 
-    public double getDiscountAmount() {
+    public BigDecimal getDiscountAmount() {
         return discountAmount;
     }
 
-    public double getChargedFare() {
+    public BigDecimal getChargedFare() {
         return chargedFare;
     }
 
@@ -85,15 +99,15 @@ public class Journey {
         this.passengerType = passengerType;
     }
 
-    public void setBaseFare(double baseFare) {
+    public void setBaseFare(BigDecimal baseFare) {
         this.baseFare = baseFare;
     }
 
-    public void setDiscountAmount(double discountAmount) {
+    public void setDiscountAmount(BigDecimal discountAmount) {
         this.discountAmount = discountAmount;
     }
 
-    public void setChargedFare(double chargedFare) {
+    public void setChargedFare(BigDecimal chargedFare) {
         this.chargedFare = chargedFare;
     }
 
@@ -109,8 +123,12 @@ public class Journey {
                 + " | Time: " + timeBand
                 + " | Passenger: " + passengerType
                 + " | Zones crossed: " + getZonesCrossed()
-                + " | Base fare: £" + String.format("%.2f", baseFare)
-                + " | Discount: £" + String.format("%.2f", discountAmount)
-                + " | Charged fare: £" + String.format("%.2f", chargedFare);
+                + " | Base fare: £" + formatMoney(baseFare)
+                + " | Discount: £" + formatMoney(discountAmount)
+                + " | Charged fare: £" + formatMoney(chargedFare);
+    }
+
+    private String formatMoney(BigDecimal amount) {
+        return String.format("%.2f", amount);
     }
 }

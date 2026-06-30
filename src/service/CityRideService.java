@@ -3,8 +3,12 @@ package service;
 import data.CityRideDataset;
 import model.Journey;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class CityRideService {
@@ -12,8 +16,14 @@ public class CityRideService {
     // This list stores journeys while the program is running.
     private ArrayList<Journey> journeys;
     private int nextJourneyId;
+    private ConfigService configService;
 
     public CityRideService() {
+        this(new ConfigService());
+    }
+
+    public CityRideService(ConfigService configService) {
+        this.configService = configService;
         journeys = new ArrayList<>();
         nextJourneyId = 1;
     }
@@ -21,12 +31,12 @@ public class CityRideService {
     public void addJourney(String date, int fromZone, int toZone,
                            CityRideDataset.TimeBand timeBand,
                            CityRideDataset.PassengerType passengerType) {
-        double baseFare = CityRideDataset.getBaseFare(fromZone, toZone, timeBand).doubleValue();
-        double discountRate = CityRideDataset.DISCOUNT_RATE.get(passengerType).doubleValue();
-        double discountAmount = baseFare * discountRate;
-        double discountedFare = baseFare - discountAmount;
+        BigDecimal baseFare = configService.getBaseFare(fromZone, toZone, timeBand);
+        BigDecimal discountRate = configService.getDiscountRate(passengerType);
+        BigDecimal discountAmount = baseFare.multiply(discountRate);
+        BigDecimal discountedFare = baseFare.subtract(discountAmount);
 
-        double chargedFare = applyDailyCap(passengerType, discountedFare);
+        BigDecimal chargedFare = applyDailyCap(passengerType, discountedFare);
 
         Journey journey = new Journey(nextJourneyId, date, fromZone, toZone,
                 timeBand, passengerType, baseFare, discountAmount, chargedFare);
@@ -55,18 +65,19 @@ public class CityRideService {
             return;
         }
 
-        double totalCost = 0;
+        BigDecimal totalCost = new BigDecimal("0.00");
         Journey mostExpensiveJourney = journeys.get(0);
 
         for (Journey journey : journeys) {
-            totalCost = totalCost + journey.getChargedFare();
+            totalCost = totalCost.add(journey.getChargedFare());
 
-            if (journey.getChargedFare() > mostExpensiveJourney.getChargedFare()) {
+            if (journey.getChargedFare().compareTo(mostExpensiveJourney.getChargedFare()) > 0) {
                 mostExpensiveJourney = journey;
             }
         }
 
-        double averageCost = totalCost / journeys.size();
+        BigDecimal averageCost = totalCost.divide(
+                BigDecimal.valueOf(journeys.size()), 2, RoundingMode.HALF_UP);
 
         System.out.println("===== Daily Summary =====");
         System.out.println("Total journeys: " + journeys.size());
@@ -114,18 +125,20 @@ public class CityRideService {
             return;
         }
 
-        double totalCost = 0;
+        BigDecimal totalCost = new BigDecimal("0.00");
         Journey mostExpensiveJourney = journeys.get(0);
 
         for (Journey journey : journeys) {
-            totalCost = totalCost + journey.getChargedFare();
+            totalCost = totalCost.add(journey.getChargedFare());
 
-            if (journey.getChargedFare() > mostExpensiveJourney.getChargedFare()) {
+            if (journey.getChargedFare().compareTo(mostExpensiveJourney.getChargedFare()) > 0) {
                 mostExpensiveJourney = journey;
             }
         }
 
-        double averageCost = totalCost / journeys.size();
+        BigDecimal averageCost = totalCost.divide(
+                BigDecimal.valueOf(journeys.size()), 2, RoundingMode.HALF_UP);
+
 
         try {
             PrintWriter textWriter = new PrintWriter(new FileWriter("daily_summary_report.txt"));
@@ -182,23 +195,23 @@ public class CityRideService {
 
     private void showTotalForPassengerType(CityRideDataset.PassengerType passengerType) {
         int count = 0;
-        double baseTotal = 0;
-        double discountTotal = 0;
-        double chargedTotal = 0;
+        BigDecimal baseTotal = new BigDecimal("0.00");
+        BigDecimal discountTotal = new BigDecimal("0.00");
+        BigDecimal chargedTotal = new BigDecimal("0.00");
 
         for (Journey journey : journeys) {
             if (journey.getPassengerType() == passengerType) {
                 count++;
-                baseTotal = baseTotal + journey.getBaseFare();
-                discountTotal = discountTotal + journey.getDiscountAmount();
-                chargedTotal = chargedTotal + journey.getChargedFare();
+                baseTotal = baseTotal.add(journey.getBaseFare());
+                discountTotal = discountTotal.add(journey.getDiscountAmount());
+                chargedTotal = chargedTotal.add(journey.getChargedFare());
             }
         }
 
-        double dailyCap = CityRideDataset.DAILY_CAP.get(passengerType).doubleValue();
+        BigDecimal dailyCap = configService.getDailyCap(passengerType);
         String capReached = "No";
 
-        if (chargedTotal >= dailyCap) {
+        if (chargedTotal.compareTo(dailyCap) >= 0) {
             capReached = "Yes";
         }
 
@@ -369,27 +382,24 @@ public class CityRideService {
         System.out.println("Day reset complete.");
     }
 
-    private void recalculateAllJourneyFares() {
-        double adultTotal = 0;
-        double studentTotal = 0;
-        double childTotal = 0;
-        double seniorCitizenTotal = 0;
+    public void recalculateAllJourneyFares() {
+        BigDecimal adultTotal = new BigDecimal("0.00");
+        BigDecimal studentTotal = new BigDecimal("0.00");
+        BigDecimal childTotal = new BigDecimal("0.00");
+        BigDecimal seniorCitizenTotal = new BigDecimal("0.00");
 
         for (Journey journey : journeys) {
-            double baseFare = CityRideDataset.getBaseFare(
+            BigDecimal baseFare = configService.getBaseFare(
                     journey.getFromZone(),
                     journey.getToZone(),
-                    journey.getTimeBand()).doubleValue();
+                    journey.getTimeBand());
 
-            double discountRate = CityRideDataset.DISCOUNT_RATE
-                    .get(journey.getPassengerType()).doubleValue();
+            BigDecimal discountRate = configService.getDiscountRate(journey.getPassengerType());
+            BigDecimal discountAmount = baseFare.multiply(discountRate);
+            BigDecimal discountedFare = baseFare.subtract(discountAmount);
+            BigDecimal dailyCap = configService.getDailyCap(journey.getPassengerType());
 
-            double discountAmount = baseFare * discountRate;
-            double discountedFare = baseFare - discountAmount;
-            double dailyCap = CityRideDataset.DAILY_CAP
-                    .get(journey.getPassengerType()).doubleValue();
-
-            double currentTotal = 0;
+            BigDecimal currentTotal = new BigDecimal("0.00");
 
             if (journey.getPassengerType() == CityRideDataset.PassengerType.ADULT) {
                 currentTotal = adultTotal;
@@ -401,12 +411,12 @@ public class CityRideService {
                 currentTotal = seniorCitizenTotal;
             }
 
-            double chargedFare = discountedFare;
+            BigDecimal chargedFare = discountedFare;
 
-            if (currentTotal >= dailyCap) {
-                chargedFare = 0;
-            } else if (currentTotal + discountedFare > dailyCap) {
-                chargedFare = dailyCap - currentTotal;
+            if (currentTotal.compareTo(dailyCap) >= 0) {
+                chargedFare = new BigDecimal("0.00");
+            } else if (currentTotal.add(discountedFare).compareTo(dailyCap) > 0) {
+                chargedFare = dailyCap.subtract(currentTotal);
             }
 
             journey.setBaseFare(baseFare);
@@ -414,39 +424,41 @@ public class CityRideService {
             journey.setChargedFare(chargedFare);
 
             if (journey.getPassengerType() == CityRideDataset.PassengerType.ADULT) {
-                adultTotal = adultTotal + chargedFare;
+                adultTotal = adultTotal.add(chargedFare);
             } else if (journey.getPassengerType() == CityRideDataset.PassengerType.STUDENT) {
-                studentTotal = studentTotal + chargedFare;
+                studentTotal = studentTotal.add(chargedFare);
             } else if (journey.getPassengerType() == CityRideDataset.PassengerType.CHILD) {
-                childTotal = childTotal + chargedFare;
+                childTotal = childTotal.add(chargedFare);
             } else if (journey.getPassengerType() == CityRideDataset.PassengerType.SENIOR_CITIZEN) {
-                seniorCitizenTotal = seniorCitizenTotal + chargedFare;
+                seniorCitizenTotal = seniorCitizenTotal.add(chargedFare);
             }
         }
     }
 
-    // AI-assisted method and modified and tested for the CityRide Lite daily cap calculation
+    // AI-assisted daily cap calculation, then modified and tested for CityRide Lite
+    // Updated to use BigDecimal and active fare configuration
     // (OpenAI, 2026)
-    private double applyDailyCap(CityRideDataset.PassengerType passengerType, double discountedFare) {
-        double currentTotal = getPassengerTypeTotal(passengerType);
-        double dailyCap = CityRideDataset.DAILY_CAP.get(passengerType).doubleValue();
-        double chargedFare = discountedFare;
+    private BigDecimal applyDailyCap(CityRideDataset.PassengerType passengerType,
+                                     BigDecimal discountedFare) {
+        BigDecimal currentTotal = getPassengerTypeTotal(passengerType);
+        BigDecimal dailyCap = configService.getDailyCap(passengerType);
+        BigDecimal chargedFare = discountedFare;
 
-        if (currentTotal >= dailyCap) {
-            chargedFare = 0;
-        } else if (currentTotal + discountedFare > dailyCap) {
-            chargedFare = dailyCap - currentTotal;
+        if (currentTotal.compareTo(dailyCap) >= 0) {
+            chargedFare = new BigDecimal("0.00");
+        } else if (currentTotal.add(discountedFare).compareTo(dailyCap) > 0) {
+            chargedFare = dailyCap.subtract(currentTotal);
         }
 
         return chargedFare;
     }
 
-    private double getPassengerTypeTotal(CityRideDataset.PassengerType passengerType) {
-        double total = 0;
+    private BigDecimal getPassengerTypeTotal(CityRideDataset.PassengerType passengerType) {
+        BigDecimal total = new BigDecimal("0.00");
 
         for (Journey journey : journeys) {
             if (journey.getPassengerType() == passengerType) {
-                total = total + journey.getChargedFare();
+                total = total.add(journey.getChargedFare());
             }
         }
 

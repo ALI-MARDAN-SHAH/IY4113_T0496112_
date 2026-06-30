@@ -16,9 +16,9 @@ public class CityRideLiteApp {
 
     public CityRideLiteApp() {
         scanner = new Scanner(System.in);
-        service = new CityRideService();
-        riderProfileService = new RiderProfileService();
         configService = new ConfigService();
+        service = new CityRideService(configService);
+        riderProfileService = new RiderProfileService();
     }
 
     public static void main(String[] args) {
