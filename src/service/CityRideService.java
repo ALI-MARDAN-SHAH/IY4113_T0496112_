@@ -119,6 +119,84 @@ public class CityRideService {
         }
     }
 
+    private boolean isValidZone(int zone) {
+        return zone >= CityRideDataset.MIN_ZONE && zone <= CityRideDataset.MAX_ZONE;
+    }
+
+    private CityRideDataset.TimeBand parseTimeBand(String value) {
+        CityRideDataset.TimeBand timeBand = null;
+
+        if (value.equals("PEAK")) {
+            timeBand = CityRideDataset.TimeBand.PEAK;
+        } else if (value.equals("OFF_PEAK")) {
+            timeBand = CityRideDataset.TimeBand.OFF_PEAK;
+        }
+
+        return timeBand;
+    }
+
+    private CityRideDataset.PassengerType parsePassengerType(String value) {
+        CityRideDataset.PassengerType passengerType = null;
+
+        if (value.equals("ADULT")) {
+            passengerType = CityRideDataset.PassengerType.ADULT;
+        } else if (value.equals("STUDENT")) {
+            passengerType = CityRideDataset.PassengerType.STUDENT;
+        } else if (value.equals("CHILD")) {
+            passengerType = CityRideDataset.PassengerType.CHILD;
+        } else if (value.equals("SENIOR_CITIZEN")) {
+            passengerType = CityRideDataset.PassengerType.SENIOR_CITIZEN;
+        }
+
+        return passengerType;
+    }
+
+    public void importJourneysFromCsv(String fileName) {
+        int importedCount = 0;
+        int failedCount = 0;
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
+            String line = reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+
+                if (columns.length < 6) {
+                    failedCount++;
+                } else {
+                    try {
+                        String date = columns[1];
+                        int fromZone = Integer.parseInt(columns[2]);
+                        int toZone = Integer.parseInt(columns[3]);
+                        CityRideDataset.TimeBand timeBand = parseTimeBand(columns[4]);
+                        CityRideDataset.PassengerType passengerType = parsePassengerType(columns[5]);
+
+                        if (isValidZone(fromZone) && isValidZone(toZone)
+                                && timeBand != null && passengerType != null
+                                && !date.isBlank()) {
+                            addJourney(date, fromZone, toZone, timeBand, passengerType);
+                            importedCount++;
+                        } else {
+                            failedCount++;
+                        }
+                    } catch (Exception e) {
+                        failedCount++;
+                    }
+                }
+            }
+
+            reader.close();
+
+            System.out.println("CSV import complete.");
+            System.out.println("Imported journeys: " + importedCount);
+            System.out.println("Failed rows: " + failedCount);
+        } catch (Exception e) {
+            System.out.println("Error importing journeys from CSV file.");
+        }
+    }
+
     public void exportDailySummaryReports() {
         if (journeys.size() == 0) {
             System.out.println("No journeys to export in report.");
@@ -382,6 +460,32 @@ public class CityRideService {
         System.out.println("Day reset complete.");
     }
 
+    public ArrayList<Journey> getJourneys() {
+        return journeys;
+    }
+
+    public void setJourneys(ArrayList<Journey> journeys) {
+        if (journeys == null) {
+            this.journeys = new ArrayList<>();
+        } else {
+            this.journeys = journeys;
+        }
+
+        recalculateAllJourneyFares();
+    }
+
+    public int getNextJourneyId() {
+        return nextJourneyId;
+    }
+
+    public void setNextJourneyId(int nextJourneyId) {
+        if (nextJourneyId < 1) {
+            this.nextJourneyId = 1;
+        } else {
+            this.nextJourneyId = nextJourneyId;
+        }
+    }
+
     public void recalculateAllJourneyFares() {
         BigDecimal adultTotal = new BigDecimal("0.00");
         BigDecimal studentTotal = new BigDecimal("0.00");
@@ -452,6 +556,7 @@ public class CityRideService {
 
         return chargedFare;
     }
+
 
     private BigDecimal getPassengerTypeTotal(CityRideDataset.PassengerType passengerType) {
         BigDecimal total = new BigDecimal("0.00");

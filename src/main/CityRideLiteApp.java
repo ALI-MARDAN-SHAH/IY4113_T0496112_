@@ -4,6 +4,8 @@ import data.CityRideDataset;
 import service.CityRideService;
 import service.RiderProfileService;
 import service.ConfigService;
+import model.JourneyDayState;
+import service.JourneyStateService;
 
 import java.util.Scanner;
 
@@ -13,12 +15,14 @@ public class CityRideLiteApp {
     private CityRideService service;
     private RiderProfileService riderProfileService;
     private ConfigService configService;
+    private JourneyStateService journeyStateService;
 
     public CityRideLiteApp() {
         scanner = new Scanner(System.in);
         configService = new ConfigService();
         service = new CityRideService(configService);
         riderProfileService = new RiderProfileService();
+        journeyStateService = new JourneyStateService();
     }
 
     public static void main(String[] args) {
@@ -72,7 +76,14 @@ public class CityRideLiteApp {
                 service.exportDailySummaryReports();
             } else if (choice == 18) {
                 adminMenu();
+            } else if (choice == 19) {
+                importJourneysFromCsv();
+            } else if (choice == 20) {
+                saveCurrentDayState();
+            } else if (choice == 21) {
+                loadCurrentDayState();
             } else if (choice == 0) {
+                offerSaveBeforeExit();
                 System.out.println("Goodbye.");
                 running = false;
             } else {
@@ -103,6 +114,9 @@ public class CityRideLiteApp {
         System.out.println("16. Export journeys to CSV");
         System.out.println("17. Export daily summary reports");
         System.out.println("18. Admin menu");
+        System.out.println("19. Import journeys from CSV");
+        System.out.println("20. Save current day state");
+        System.out.println("21. Load current day state");
         System.out.println("0. Exit");
         System.out.println("------------------------------");
     }
@@ -268,6 +282,49 @@ public class CityRideLiteApp {
         }
     }
 
+    private void importJourneysFromCsv() {
+        System.out.print("Enter CSV file name or press Enter for journeys_export.csv: ");
+        String fileName = scanner.nextLine();
+
+        if (fileName.isBlank()) {
+            fileName = "journeys_export.csv";
+        }
+
+        service.importJourneysFromCsv(fileName);
+    }
+
+    private void saveCurrentDayState() {
+        JourneyDayState state = new JourneyDayState(
+                riderProfileService.getRiderProfile(),
+                service.getJourneys(),
+                service.getNextJourneyId());
+
+        journeyStateService.saveState(state);
+    }
+
+    private void loadCurrentDayState() {
+        JourneyDayState state = journeyStateService.loadState();
+
+        if (state != null) {
+            riderProfileService.setRiderProfile(state.getRiderProfile());
+            service.setJourneys(state.getJourneys());
+            service.setNextJourneyId(state.getNextJourneyId());
+
+            System.out.println("Current day state applied to program.");
+        }
+    }
+
+    private void offerSaveBeforeExit() {
+        System.out.print("Do you want to save current day state before exit? yes/no: ");
+        String confirm = scanner.nextLine();
+
+        if (confirm.equals("yes")) {
+            saveCurrentDayState();
+        } else {
+            System.out.println("Current day state was not saved.");
+        }
+    }
+
     private void adminMenu() {
         System.out.print("Enter admin password: ");
         String password = scanner.nextLine();
@@ -286,6 +343,7 @@ public class CityRideLiteApp {
             System.out.println("3. Update daily cap");
             System.out.println("4. Update peak times");
             System.out.println("5. Save fare config");
+            System.out.println("6. Update base fare");
             System.out.println("0. Return to main menu");
 
             int option = getNumberInput("Choose admin option: ");
@@ -300,6 +358,8 @@ public class CityRideLiteApp {
                 updatePeakTimes();
             } else if (option == 5) {
                 configService.saveConfig();
+            } else if (option == 6) {
+                updateBaseFare();
             } else if (option == 0) {
                 adminRunning = false;
             } else {
@@ -316,7 +376,9 @@ public class CityRideLiteApp {
 
         double discountRate = getDoubleInput("Enter new discount rate: ");
 
-        configService.updateDiscount(passengerType, discountRate);
+        if (configService.updateDiscount(passengerType, discountRate)) {
+            service.recalculateAllJourneyFares();
+        }
     }
 
     private void updateDailyCap() {
@@ -324,7 +386,22 @@ public class CityRideLiteApp {
 
         double dailyCap = getDoubleInput("Enter new daily cap: £");
 
-        configService.updateDailyCap(passengerType, dailyCap);
+        if (configService.updateDailyCap(passengerType, dailyCap)) {
+            service.recalculateAllJourneyFares();
+        }
+    }
+
+    private void updateBaseFare() {
+        int fromZone = getValidZone("Enter start zone 1-5: ");
+        int toZone = getValidZone("Enter destination zone 1-5: ");
+
+        CityRideDataset.TimeBand timeBand = getTimeBand();
+
+        double newFare = getDoubleInput("Enter new base fare: £");
+
+        if (configService.updateBaseFare(fromZone, toZone, timeBand, newFare)) {
+            service.recalculateAllJourneyFares();
+        }
     }
 
     private void updatePeakTimes() {
